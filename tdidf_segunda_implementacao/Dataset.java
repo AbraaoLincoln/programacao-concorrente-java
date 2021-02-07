@@ -9,7 +9,7 @@ public class Dataset {
 	public Dataset(String location) {
 		dataset = openDataset(location);
 		listsOfDocuments = dataset.listFiles();
-		indexDocumentToAnalyze = -1;
+		indexDocumentToAnalyze = 0;
 	}
 	
 	private File openDataset(String location) {
@@ -24,9 +24,17 @@ public class Dataset {
 	public synchronized File getDocumentToAnalyze() {
 		if(indexDocumentToAnalyze < listsOfDocuments.length) {
 			indexDocumentToAnalyze++;
-			return listsOfDocuments[indexDocumentToAnalyze];
+			return listsOfDocuments[indexDocumentToAnalyze - 1];
 		}else {
 			return null;
+		}
+	}
+	
+	public Boolean stillHasTextToAnalyze() {
+		if(indexDocumentToAnalyze >= listsOfDocuments.length) {
+			return false;
+		}else {
+			return true;
 		}
 	}
 }

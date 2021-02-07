@@ -2,14 +2,14 @@ import java.util.HashMap;
 
 public class Word {
 	private String value;
-	private HashMap<Integer, Double> td;
+	private HashMap<String, Double> td;
 	private double idf;
 	private double tdidf;
 	private int qtyOfTextThaHaveThisWord;
 	
 	public Word(String newValue) {
 		value = newValue;
-		td = new HashMap<Integer, Double>();
+		td = new HashMap<String, Double>();
 		idf = 0;
 		qtyOfTextThaHaveThisWord = 0;
 	}
@@ -18,12 +18,12 @@ public class Word {
 		return value;
 	}
 
-	public double getTd(int numOftheText) {
-		return td.get(numOftheText);
+	public double getTd(String nameOfText) {
+		return td.get(nameOfText);
 	}
 
-	public void addTd(int indexOfText, double tdOftext) {
-		td.put(indexOfText, tdOftext);
+	public void addTd(String nameOfText, double tdOftext) {
+		td.put(nameOfText, tdOftext);
 	}
 
 	public double getIdf() {
