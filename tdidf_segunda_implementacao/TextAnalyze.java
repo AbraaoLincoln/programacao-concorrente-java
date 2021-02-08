@@ -9,11 +9,9 @@ public class TextAnalyze implements Runnable{
 	private ArrayList<Word> listOfWordsToAnalyse;
 	private int qtyOfWordsText;
 	private HashMap<String, Integer> qtyOfWordInTheText;
-	private Object lock;
 	
-	public TextAnalyze(ArrayList<Word> listOfWordsToAnalyse, Object lock) {
+	public TextAnalyze(ArrayList<Word> listOfWordsToAnalyse) {
 		this.listOfWordsToAnalyse = listOfWordsToAnalyse;
-		this.lock = lock;
 	}
 	
 	@Override
@@ -22,20 +20,16 @@ public class TextAnalyze implements Runnable{
 	}
 	
 	public void analyzeText(){
-		synchronized (lock) {
-			File textToAnalyze = Dataset.sharedDataset.getDocumentToAnalyze();
-			
-			while(textToAnalyze != null) {	
-				try {
-					countTheNumberOfTheWordInText(new BufferedReader(new FileReader(textToAnalyze.toString())));
-					calculateTd(textToAnalyze.getName());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				textToAnalyze = Dataset.sharedDataset.getDocumentToAnalyze();
+		File textToAnalyze = Dataset.sharedDataset.getDocumentToAnalyze();
+		
+		while(textToAnalyze != null) {	
+			try {
+				countTheNumberOfTheWordInText(new BufferedReader(new FileReader(textToAnalyze.toString())));
+				calculateTd(textToAnalyze.getName());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			
-			this.lock.notify();
+			textToAnalyze = Dataset.sharedDataset.getDocumentToAnalyze();
 		}
 	}
 	
@@ -68,7 +62,6 @@ public class TextAnalyze implements Runnable{
 	}
 	
 	private void calculateTd(String textName) {
-		System.out.println(textName);
 		
 		for(Word wordToAnalyze : listOfWordsToAnalyse) {
 			int qtyOfTheWordInText = qtyOfWordInTheText.get(wordToAnalyze.getValue());
@@ -76,6 +69,8 @@ public class TextAnalyze implements Runnable{
 			if(qtyOfTheWordInText > 0) {
 				wordToAnalyze.addTd(textName, qtyOfTheWordInText / (double)qtyOfWordsText);
 				wordToAnalyze.updateQtyOfTextThaHaveThisWord();
+			}else {
+				wordToAnalyze.addTd(textName, 0);
 			}
 		}
 		

@@ -27,15 +27,24 @@ public class Word {
 	}
 
 	public double getIdf() {
+		calculateIdf();
 		return idf;
+	}
+	
+	public void calculateIdf() {
+		if(qtyOfTextThaHaveThisWord != 0) {
+			idf = Math.log10((double)qtyOfTextThaHaveThisWord / Dataset.sharedDataset.getQtyOfDocuments());
+		}else {
+			idf = 0;
+		}
 	}
 
 	public void setIdf(double newIdf) {
 		idf = newIdf;
 	}
 
-	public double getTdidf(int indexOfTheText) {
-		return td.get(indexOfTheText) * idf;
+	public double getTdidf(String nameOfText) {
+		return (double)td.get(nameOfText) * getIdf();
 	}
 
 	public void setTdidf(double newTdidf) {

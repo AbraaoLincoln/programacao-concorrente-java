@@ -5,7 +5,7 @@ public class Dataset {
 	private File[] listsOfDocuments;
 	private int indexDocumentToAnalyze;
 	public static Dataset sharedDataset;
-	
+
 	public Dataset(String location) {
 		dataset = openDataset(location);
 		listsOfDocuments = dataset.listFiles();
@@ -36,5 +36,13 @@ public class Dataset {
 		}else {
 			return true;
 		}
+	}
+	
+	public File[] getListsOfDocuments() {
+		return listsOfDocuments;
+	}
+	
+	public int getQtyOfDocuments() {
+		return listsOfDocuments.length;
 	}
 }
