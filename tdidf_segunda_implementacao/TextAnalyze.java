@@ -24,6 +24,7 @@ public class TextAnalyze implements Runnable{
 		
 		while(textToAnalyze != null) {	
 			try {
+				System.out.println("Analisando o texto " + textToAnalyze.getName() + " ...");
 				countTheNumberOfTheWordInText(new BufferedReader(new FileReader(textToAnalyze.toString())));
 				calculateTd(textToAnalyze.getName());
 			} catch (IOException e) {
